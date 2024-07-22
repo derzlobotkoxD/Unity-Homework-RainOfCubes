@@ -10,7 +10,7 @@ public class Cube : MonoBehaviour
     private float _maximumDestroyDelay = 5f;
     private bool _isFirstHit = true;
     private Color _detonation—olor = Color.red;
-    private Color _start—olor;
+    private Color _startColor;
 
     public event UnityAction<Cube> Deleted;
 
@@ -19,13 +19,13 @@ public class Cube : MonoBehaviour
 
     private void Awake()
     {
-        _start—olor = Renderer.material.color;
+        _startColor = Renderer.material.color;
     }
 
     private void OnEnable()
     {
         _isFirstHit = true;
-        Renderer.material.color = _start—olor;
+        Renderer.material.color = _startColor;
     }
 
     private void OnCollisionEnter(Collision collision)
