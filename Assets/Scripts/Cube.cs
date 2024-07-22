@@ -9,7 +9,7 @@ public class Cube : MonoBehaviour
     private float _minimumDestroyDelay = 2f;
     private float _maximumDestroyDelay = 5f;
     private bool _isFirstHit = true;
-    private Color _detonation—olor = Color.red;
+    private Color _detonationColor = Color.red;
     private Color _startColor;
 
     public event UnityAction<Cube> Deleted;
@@ -34,7 +34,7 @@ public class Cube : MonoBehaviour
         {
             _isFirstHit = false;
             float destroyDelay = Random.Range(_minimumDestroyDelay, _maximumDestroyDelay);
-            Renderer.material.color = _detonation—olor;
+            Renderer.material.color = _detonationColor;
 
             Invoke(nameof(Delete), destroyDelay);
         }
