@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -31,21 +32,20 @@ public class Cube : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.GetComponent<Cube>() == null && _isFirstHit)
+        if (collision.collider.TryGetComponent<Platform>(out Platform platform) && _isFirstHit)
         {
             _isFirstHit = false;
             float destroyDelay = Random.Range(_minimumDestroyDelay, _maximumDestroyDelay);
             Renderer.material.color = _detonationColor;
 
-            Invoke(nameof(Delete), destroyDelay);
+            StartCoroutine(Delete(destroyDelay));
         }
     }
 
-    private void Delete()
+    private IEnumerator Delete(float delay)
     {
-        if (Deleted != null)
-            Deleted.Invoke(this);
-        else
-            Destroy(gameObject);
+        yield return new WaitForSeconds(delay);
+
+        Deleted?.Invoke(this);
     }
 }

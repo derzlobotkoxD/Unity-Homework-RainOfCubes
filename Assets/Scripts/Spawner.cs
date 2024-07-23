@@ -17,9 +17,9 @@ public class Spawner : MonoBehaviour
     {
         _pool = new ObjectPool<Cube>(
             createFunc: () => CreateCube(),
-            actionOnGet: (obj) => ActionOnGet(obj),
+            actionOnGet: (obj) => ActivateCube(obj),
             actionOnRelease: (obj) => obj.gameObject.SetActive(false),
-            actionOnDestroy: (obj) => Delete(obj),
+            actionOnDestroy: (obj) => DeleteCube(obj),
             collectionCheck: true,
             defaultCapacity: _startSizePool,
             maxSize: _maxSizePool);
@@ -33,7 +33,7 @@ public class Spawner : MonoBehaviour
         InvokeRepeating(nameof(GetCube), 0f, _delay);
     }
 
-    private void ActionOnGet(Cube cube)
+    private void ActivateCube(Cube cube)
     {
         cube.transform.position = GetRandomPosition();
         cube.transform.rotation = Quaternion.identity;
@@ -55,7 +55,7 @@ public class Spawner : MonoBehaviour
     private void Release(Cube cube) =>
         _pool.Release(cube);
 
-    private void Delete(Cube cube)
+    private void DeleteCube(Cube cube)
     {
         cube.Deleted -= Release;
         Destroy(cube);
