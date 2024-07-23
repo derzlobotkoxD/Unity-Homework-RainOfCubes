@@ -43,7 +43,7 @@ public class Spawner : MonoBehaviour
 
     private Cube CreateCube()
     {
-        Cube cube = Instantiate(_prefabCube, GetRandomPosition(), Quaternion.identity);
+        Cube cube = Instantiate(_prefabCube);
         cube.Deleted += Release;
 
         return cube;
