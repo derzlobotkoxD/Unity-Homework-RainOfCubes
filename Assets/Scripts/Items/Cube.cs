@@ -19,7 +19,7 @@ public class Cube : Item
         {
             _isFirstHit = false;
             Renderer.material.color = _detonationColor;
-            float destroyDelay = Random.Range(MinimumDestroyDelay, MaximumDestroyDelay);
+            float destroyDelay = GetRandomDelay();
 
             StartCoroutine(DeleteWithDelay(destroyDelay));
         }

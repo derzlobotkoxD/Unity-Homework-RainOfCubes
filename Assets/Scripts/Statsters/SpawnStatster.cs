@@ -12,12 +12,16 @@ public abstract class SpawnStatster<T> : MonoBehaviour where T : Item
     private string _descriptionCountCreated = "2) количество созданных: ";
     private string _descriptionCountActive = "3) количество активных: ";
 
-    private int _countSpawned = 0;
-
     private void OnEnable()
     {
-        _spawner.InstanceCreated += AddSpawned;
+        _spawner.InstanceCreated += UpdateAtSpawn;
         _spawner.PoolChanged += UpdateActiveStats;
+    }
+
+    private void OnDisable()
+    {
+        _spawner.InstanceCreated -= UpdateAtSpawn;
+        _spawner.PoolChanged -= UpdateActiveStats;
     }
 
     private void Start()
@@ -27,19 +31,18 @@ public abstract class SpawnStatster<T> : MonoBehaviour where T : Item
         UpdateActiveStats();
     }
 
-    private void AddSpawned()
+    private void UpdateAtSpawn()
     {
-        _countSpawned++;
         UpdateSpawnedStats();
         UpdateCreatedStats();
     }
 
     private void UpdateSpawnedStats() =>
-        _textCountSpawned.text = _descriptionCountSpawned + _countSpawned.ToString();
+        _textCountSpawned.text = _descriptionCountSpawned + _spawner.CountSpawned;
 
     private void UpdateCreatedStats() =>
-        _textCountCreated.text = _descriptionCountCreated + _spawner.Pool.CountAll;
+        _textCountCreated.text = _descriptionCountCreated + _spawner.CountCreated;
 
     private void UpdateActiveStats() =>
-        _textCountActive.text = _descriptionCountActive + _spawner.Pool.CountActive;
+        _textCountActive.text = _descriptionCountActive + _spawner.CountActive;
 }

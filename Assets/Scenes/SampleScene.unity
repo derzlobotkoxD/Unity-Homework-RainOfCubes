@@ -1008,7 +1008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdacc730c6603c249adfea0b57a694fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 8033267977141185673, guid: 011f77849b53619479954426d6b4527f, type: 3}
+  _prefab: {fileID: 8033267977141185673, guid: 011f77849b53619479954426d6b4527f, type: 3}
   _exploder: {fileID: 445222809}
 --- !u!1 &777695335
 GameObject:
@@ -2428,7 +2428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d5e9e4c28541a8448015223cd775726, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 7930611286019860684, guid: 9841a88d152e560408025029ed1d710f, type: 3}
+  _prefab: {fileID: 7930611286019860684, guid: 9841a88d152e560408025029ed1d710f, type: 3}
   _bombSpawner: {fileID: 720074951}
 --- !u!1 &1867512562
 GameObject:

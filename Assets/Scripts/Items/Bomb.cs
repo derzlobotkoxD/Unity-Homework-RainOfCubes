@@ -11,7 +11,7 @@ public class Bomb : Item
 
     private IEnumerator Disappear()
     {
-        float delay = Random.Range(MinimumDestroyDelay, MaximumDestroyDelay);
+        float delay = GetRandomDelay();
         float time = 0;
         Color color = Renderer.material.color;
 

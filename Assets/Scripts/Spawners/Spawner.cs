@@ -4,24 +4,27 @@ using UnityEngine.Pool;
 
 public abstract class Spawner<T> : MonoBehaviour where T : Item
 {
-    [SerializeField] protected T Prefab;
+    [SerializeField] private T _prefab;
 
     private int _defaultCapacitPool = 5;
     private int _maxSizePool = 5;
     private Vector3 _spawnPosition;
+    private ObjectPool<T> _pool;
 
     public event UnityAction InstanceCreated;
     public event UnityAction PoolChanged;
 
-    public ObjectPool<T> Pool { get; private set; }
+    public float CountActive => _pool.CountActive;
+    public float CountCreated => _pool.CountAll;
+    public float CountSpawned { get; private set; } = 0;
 
     private void Awake()
     {
-        Pool = new ObjectPool<T>(
-            createFunc: () => Instantiate(Prefab),
+        _pool = new ObjectPool<T>(
+            createFunc: () => Instantiate(_prefab),
             actionOnGet: (obj) => ActivateInstance(obj),
             actionOnRelease: (obj) => obj.gameObject.SetActive(false),
-            actionOnDestroy: (obj) => Destroy(obj),
+            actionOnDestroy: (obj) => Destroy(obj.gameObject),
             collectionCheck: true,
             defaultCapacity: _defaultCapacitPool,
             maxSize: _maxSizePool);
@@ -30,7 +33,7 @@ public abstract class Spawner<T> : MonoBehaviour where T : Item
     public void GetInstance(Vector3 position)
     {
         _spawnPosition = position;
-        Pool.Get();
+        _pool.Get();
     }
 
     protected virtual void ActivateInstance(T item)
@@ -41,16 +44,14 @@ public abstract class Spawner<T> : MonoBehaviour where T : Item
         item.transform.rotation = Quaternion.identity;
         item.gameObject.SetActive(true);
 
+        CountSpawned++;
         InstanceCreated?.Invoke();
         PoolChanged?.Invoke();
     }
 
     protected virtual void ReleaseInstance(T item)
     {
-        Pool.Release(item);
+        _pool.Release(item);
         PoolChanged?.Invoke();
     }
-
-    private void OnDestroy() =>
-        Pool.Dispose();
 }
